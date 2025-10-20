@@ -8,8 +8,7 @@ Guía práctica para configurar icono personalizado, Splash Screen y AndroidMani
 - **[Splash Screen](#splash-screen)**
 - **[AndroidManifest.xml](#androidmanifestxml)**
 - **[Sincronización y build](#sincronización-y-build)**
-- **[Verificación visual (capturas)](#verificación-visual-capturas)**
-- **[Solución de problemas](#solución-de-problemas)**
+- **[Capturas](#capturas)**
 
 ---
 
@@ -47,6 +46,8 @@ const config: CapacitorConfig = {
 
 - **Requisitos de imagen**
   - `resources/icon.png` — PNG 1024x1024, preferible fondo transparente.
+ 
+  - <img width="512" height="512" alt="icon" src="https://github.com/user-attachments/assets/e9e8c7c6-aea8-46f1-8160-99f11c69c18f" />
 
 - **Generación de recursos**
   ```bash
@@ -57,25 +58,20 @@ const config: CapacitorConfig = {
 - **Archivos generados (Android)**
   - `android/app/src/main/res/mipmap-*/ic_launcher.png`
   - `android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml`
-
-- **Verificación**
-  - Revisa que cambien las fechas de modificación de los archivos `mipmap-*`.
-
-- **Captura sugerida**
-  - [Inserte aquí la captura del icono en el launcher]
-
+    
 ---
 
 ## Splash Screen
 
 - **Requisitos de imagen**
   - `resources/splash.png` — PNG 2732x2732, contenido centrado (área segura ~1200x1200).
+ 
+  - <img width="385" height="807" alt="image" src="https://github.com/user-attachments/assets/cb51c74c-1992-4dc5-9f95-1bd8b87e74eb" />
 
 - **Generación de recursos**
   ```bash
   npx capacitor-assets generate --android
   ```
-  - Se crean `android/app/src/main/res/drawable*/splash.png` y variantes `drawable-port-*`.
 
 - **Tema de lanzamiento (Android ≤ 30)**
   Archivo: `android/app/src/main/res/values/styles.xml`
@@ -100,20 +96,6 @@ const config: CapacitorConfig = {
   </resources>
   ```
 
-- **Tema de lanzamiento (Android 12+, API 31)**
-  Archivo: `android/app/src/main/res/values-v31/styles.xml` (créalo si no existe)
-  ```xml
-  <?xml version="1.0" encoding="utf-8"?>
-  <resources>
-    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
-      <item name="windowSplashScreenBackground">@android:color/white</item>
-      <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
-      <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
-      <item name="windowSplashScreenIconBackgroundColor">@null</item>
-    </style>
-  </resources>
-  ```
-
 - **`AndroidManifest.xml` debe apuntar al tema de launch**
   Archivo: `android/app/src/main/AndroidManifest.xml`
   ```xml
@@ -129,34 +111,13 @@ const config: CapacitorConfig = {
     </intent-filter>
   </activity>
   ```
-
-- **Plugin opcional para control por código**
-  ```bash
-  npm i @capacitor/splash-screen
-  npx cap sync android
-  ```
-  Y en `src/app/app.component.ts`:
-  ```ts
-  import { SplashScreen } from '@capacitor/splash-screen';
-  // SplashScreen.show({ autoHide: false });
-  // ... inicialización ...
-  // SplashScreen.hide();
-  ```
-
-- **Captura sugerida**
-  - [Inserte aquí la captura del splash en arranque]
-
+  
 ---
 
 ## AndroidManifest.xml
 
 - **Ubicación**: `android/app/src/main/AndroidManifest.xml`
-- **Importante (AGP moderno)**: No usar `package` en `<manifest>`. Definir `namespace` en `android/app/build.gradle`.
-  ```gradle
-  android {
-    namespace "tu.dominio.app" // Debe coincidir con appId de capacitor
-  }
-  ```
+  
 - **Strings**: `android/app/src/main/res/values/strings.xml`
   ```xml
   <resources>
@@ -164,10 +125,6 @@ const config: CapacitorConfig = {
     <string name="title_activity_main">Mi App</string>
   </resources>
   ```
-
-- **Captura sugerida**
-  - [Inserte aquí la captura del AndroidManifest.xml con el tema de launch]
-
 ---
 
 ## Sincronización y build
@@ -177,45 +134,15 @@ ionic build
 npx cap sync android
 npx cap open android
 ```
-En Android Studio:
-- Build > Clean Project
-- Build > Rebuild Project
-- Ejecutar en emulador o dispositivo
 
 ---
 
-## Verificación visual (capturas)
-- **[icono]** Captura del icono en el launcher del emulador/dispositivo.
+## Capturas
+- **[icono]**
+
+<img width="376" height="194" alt="image" src="https://github.com/user-attachments/assets/cc65513e-fa81-4c5d-a739-4ba51a80b1b3" />
+
 - **[splash]** Captura del splash en arranque en frío.
-- **[manifest]** Captura del `AndroidManifest.xml` mostrando `AppTheme.NoActionBarLaunch`.
 
-> Nota: Para ver el splash, realiza un arranque en frío: fuerza detención o desinstala y vuelve a abrir la app.
+<img width="385" height="807" alt="image" src="https://github.com/user-attachments/assets/9b947d56-cc8c-48e0-8cd2-85d7ee6d7840" />
 
----
-
-## Solución de problemas
-- **Se ve el icono antiguo**
-  - Regenera con `npx capacitor-assets generate --android`.
-  - Desinstala la app y reinstala (o incrementa `versionCode` en `build.gradle`).
-
-- **No se ve la imagen de splash (Android 12+)**
-  - Crea `values-v31/styles.xml` con `windowSplashScreenAnimatedIcon=@drawable/splash`.
-  - Asegúrate de que exista `res/drawable-*/splash.png`.
-
-- **Error: package en AndroidManifest**
-  - Quitar `package` de `<manifest>` y usar `namespace` en `build.gradle`.
-
-- **Autocompletado/IDE**
-  - Reinicia TS server (VS Code) y asegúrate de `npm install` sin errores.
-
----
-
-## Metadatos del proyecto
-- `appId`: `tu.dominio.app`
-- `appName`: `Mi App`
-- `webDir`: `www`
-- Splash configurado en `capacitor.config.ts` y estilos Android.
-
----
-
-Documentación generada automáticamente. Actualiza las capturas donde se indica para evidencias.
