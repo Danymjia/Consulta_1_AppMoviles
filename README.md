@@ -1,6 +1,4 @@
-# Consulta 1 — Ionic Angular + Capacitor (Android)
-
-Guía práctica para configurar icono personalizado, Splash Screen y AndroidManifest.xml. Incluye pasos, verificación y solución de problemas, con espacios para capturas.
+# Consulta 1 — Ionic Angular + Capacitor Android
 
 ## Índice
 - **[Requisitos previos](#requisitos-previos)**
@@ -44,7 +42,6 @@ const config: CapacitorConfig = {
 
 ## Icono personalizado
 
-- **Requisitos de imagen**
   - `resources/icon.png` — PNG 1024x1024, preferible fondo transparente.
  
   - <img width="512" height="512" alt="icon" src="https://github.com/user-attachments/assets/e9e8c7c6-aea8-46f1-8160-99f11c69c18f" />
@@ -63,7 +60,6 @@ const config: CapacitorConfig = {
 
 ## Splash Screen
 
-- **Requisitos de imagen**
   - `resources/splash.png` — PNG 2732x2732, contenido centrado (área segura ~1200x1200).
  
   - <img width="385" height="807" alt="image" src="https://github.com/user-attachments/assets/cb51c74c-1992-4dc5-9f95-1bd8b87e74eb" />
@@ -73,7 +69,7 @@ const config: CapacitorConfig = {
   npx capacitor-assets generate --android
   ```
 
-- **Tema de lanzamiento (Android ≤ 30)**
+- **Tema de lanzamiento**
   Archivo: `android/app/src/main/res/values/styles.xml`
   ```xml
   <?xml version="1.0" encoding="utf-8"?>
@@ -145,4 +141,14 @@ npx cap open android
 - **[splash]** Captura del splash en arranque en frío.
 
 <img width="385" height="807" alt="image" src="https://github.com/user-attachments/assets/9b947d56-cc8c-48e0-8cd2-85d7ee6d7840" />
+
+- **[spp]**
+
+<img width="411" height="899" alt="image" src="https://github.com/user-attachments/assets/32ad5a89-80d1-42aa-bbf8-0545b4d61ca6" />
+
+<img width="466" height="902" alt="image" src="https://github.com/user-attachments/assets/1242a93c-7336-4497-9bef-a70a329aba08" />
+
+<img width="432" height="908" alt="image" src="https://github.com/user-attachments/assets/67125177-b87d-468b-b1cd-ece19cd0d5ed" />
+
+
 
